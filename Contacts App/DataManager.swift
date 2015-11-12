@@ -9,25 +9,31 @@
 import Foundation
 
 struct DataManager{
-static let sharedManager = DataManager()
-
-func saveContacts(contacts:[Contact]) {
-    //We'll implement this later
-}
-
-func loadContacts() -> [Contact]? {
-    var contacts = [Contact]()
-    for var i = 0; i < 10; i++ {
-        var c = Contact()
-        c.firstName = "Vinny"
-        c.lastName = "Barbarino"
-        c.streetAddress = "123 Happy Street"
-        c.phoneNumber = "404-555-1212"
-        c.city = "Brooklyn"
-        c.state = "New York"
-        c.zipCode = "11201"
-        contacts.append(c)
+    static let sharedManager = DataManager()
+    
+    func saveContacts(contacts:[Contact]) {
+        let destinationPath = self.filePathForArchiving()
+        NSKeyedArchiver.archiveRootObject(contacts,
+            toFile:destinationPath)
     }
-    return contacts
-}
+    
+    func loadContacts() -> [Contact]?  {
+        let destinationPath = self.filePathForArchiving()
+        if let contacts : [Contact] =
+            NSKeyedUnarchiver.unarchiveObjectWithFile(destinationPath) as?
+                [Contact] {
+                    return contacts
+        }
+        return [Contact]()
+    }
+    
+    
+    private func filePathForArchiving() -> String {
+        let documentsPath =
+        NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
+            .UserDomainMask, true)[0] as String
+        let destinationPath = "\(documentsPath)/SavedContacts"
+        return destinationPath
+    }
+    
 }
