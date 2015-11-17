@@ -83,4 +83,21 @@ class ContactListViewController: UIViewController, UITableViewDataSource, UITabl
         self.tableView.reloadData()
     }
     
+    
+    @IBAction func importButtonTouched(sender: AnyObject) {
+        let wsm = WebServiceManager()
+        wsm.fetchContacts { (newContacts) -> Void in
+            //Code in closure goes here
+            for contact in newContacts {
+                self.contacts?.append(contact)
+                DataManager.sharedManager.saveContacts(self.contacts!)
+            }
+        }
+    }
+    
+    
+    @IBAction func refreshButtonTouched(sender: UIBarButtonItem) {
+        self.tableView.reloadData()
+    }
+    
 }
