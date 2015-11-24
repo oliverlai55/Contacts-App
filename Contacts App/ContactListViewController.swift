@@ -47,10 +47,24 @@ class ContactListViewController: UIViewController, UITableViewDataSource, UITabl
         indexPath: NSIndexPath) -> UITableViewCell {
             //First get the contact for the row
             let contact = self.contacts![indexPath.row]
-            let cell = UITableViewCell()
-            cell.textLabel?.text = "\(contact.firstName!) \(contact.lastName!)"
-            return cell
+            if let cell =
+                tableView.dequeueReusableCellWithIdentifier("contactCellReuseID",
+                    forIndexPath: indexPath) as? ContactTableViewCell {
+                        cell.firstNameLabel.text = contact.firstName
+                        cell.lastNameLabel.text = contact.lastName
+                        
+                        if indexPath.row % 2 == 0 {
+                            cell.contactImage.image = UIImage(named: "Contact_Female")
+                        }
+                        else {
+                            cell.contactImage.image = UIImage(named: "Contact_Male")
+                        }
+                        
+                        return cell
+            }
+            return UITableViewCell()
     }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath
         indexPath: NSIndexPath) {
             self.performSegueWithIdentifier("ContactsDetailSegue", sender:
