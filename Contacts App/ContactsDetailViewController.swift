@@ -17,10 +17,10 @@ class ContactsDetailViewController: UIViewController  {
         self.firstNameLabel.text = self.selectedContact.firstName
         self.lastNameLabel.text = self.selectedContact.lastName
         self.phoneNumberLabel.text = self.selectedContact.phoneNumber
-        self.streetAddressLabel.text = self.selectedContact.streetAddress
-        self.cityLabel.text = self.selectedContact.city
-        self.stateLabel.text = self.selectedContact.state
-        self.zipCodeLabel.text = self.selectedContact.zipCode
+        self.streetAddressLabel.text = self.selectedContact.address?.street
+        self.cityLabel.text = self.selectedContact.address?.city
+        self.stateLabel.text = self.selectedContact.address?.state
+        self.zipCodeLabel.text = self.selectedContact.address?.zipCode
     }
 
     override func didReceiveMemoryWarning() {

@@ -93,7 +93,7 @@ class ContactListViewController: UIViewController, UITableViewDataSource, UITabl
     
     func didCreateNewContact(newContact: Contact) {
         self.contacts?.append(newContact)
-        DataManager.sharedManager.saveContacts(self.contacts!)
+       
         self.tableView.reloadData()
     }
     
@@ -104,7 +104,7 @@ class ContactListViewController: UIViewController, UITableViewDataSource, UITabl
             //Code in closure goes here
             for contact in newContacts {
                 self.contacts?.append(contact)
-                DataManager.sharedManager.saveContacts(self.contacts!)
+              
             }
         }
     }
