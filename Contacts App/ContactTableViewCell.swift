@@ -13,4 +13,9 @@ class ContactTableViewCell: UITableViewCell {
 
     @IBOutlet var lastNameLabel: UILabel!
     @IBOutlet var firstNameLabel: UILabel!
+    
+    var editContactId : String?
+    private var editedContact: Contact?
+    
+
 }

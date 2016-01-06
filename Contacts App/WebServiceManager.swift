@@ -66,6 +66,13 @@ struct WebServiceManager {
                 newContact.address?.city = addressDict["city"] as? String
                 newContact.address?.zipCode = addressDict["zipcode"] as? String
             }
+            
+            //Save the id as a string instead of a number so we are free
+            //to use UUIDs as id's to ensure uniqueness when we create new
+            //contacts
+            if let contactId = jsonDict["id"] as? String {
+                newContact.contactId = contactId
+            }
             if let fullName = jsonDict["name"] as? String {
                 //Use fullName here
                 let fullNameArray = fullName.componentsSeparatedByString(" ")

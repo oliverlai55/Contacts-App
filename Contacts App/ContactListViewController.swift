@@ -16,11 +16,10 @@ class ContactListViewController: UIViewController, UITableViewDataSource, UITabl
         super.viewDidLoad()
         
         self.contacts = DataManager.sharedManager.loadContacts()
-
-        // Do any additional setup after loading the view.
         self.tableView.dataSource = self
         self.tableView.delegate = self
-            }
+        // Do any additional setup after loading the view.
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -43,6 +42,7 @@ class ContactListViewController: UIViewController, UITableViewDataSource, UITabl
         section: Int) -> Int {
             return (self.contacts?.count)!
     }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath
         indexPath: NSIndexPath) -> UITableViewCell {
             //First get the contact for the row
@@ -71,21 +71,18 @@ class ContactListViewController: UIViewController, UITableViewDataSource, UITabl
                 self)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender:
-        AnyObject?) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
             if segue.identifier == "ContactsDetailSegue" {
-                if let selectedCell =
-                    self.tableView.indexPathForSelectedRow {
-                        let selectedContact = self.contacts![selectedCell.row]
-                        if let detailVC = segue.destinationViewController as?
-                            ContactsDetailViewController {
+                if let selectedCell = self.tableView.indexPathForSelectedRow {
+                    let selectedContact = self.contacts![selectedCell.row]
+                    
+                        if let detailVC = segue.destinationViewController as? ContactsDetailViewController {
                                 detailVC.selectedContact = selectedContact
                         }
                 }
             }
             else if segue.identifier == "NewContactSegue" {
-                if let newContactVC = segue.destinationViewController as?
-                    NewContactViewController {
+                if let newContactVC = segue.destinationViewController as? NewContactViewController {
                         newContactVC.delegate = self
                 }
             }
@@ -114,4 +111,7 @@ class ContactListViewController: UIViewController, UITableViewDataSource, UITabl
         self.tableView.reloadData()
     }
     
+    func didUpdateContact(contact: Contact) {
+        // code here
+    }
 }

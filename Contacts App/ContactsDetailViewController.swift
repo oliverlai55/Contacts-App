@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ContactsDetailViewController: UIViewController  {
-
+class ContactsDetailViewController: UIViewController, NewContactDelegate  {
+    
+    var selectedContact : Contact!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,15 +30,7 @@ class ContactsDetailViewController: UIViewController  {
     }
     
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     @IBOutlet weak var firstNameLabel: UILabel!
 
     @IBOutlet weak var lastNameLabel: UILabel!
@@ -52,7 +45,42 @@ class ContactsDetailViewController: UIViewController  {
     
     @IBOutlet weak var zipCodeLabel: UILabel!
     
+   
     
-    var selectedContact : Contact!
+    func didUpdateContact(contact: Contact) {
+        self.selectedContact = contact
+        self.updateTextFields()
+    }
     
+    func updateTextFields() {
+            self.firstNameLabel.text = self.selectedContact?.firstName
+            self.lastNameLabel.text = self.selectedContact?.lastName
+            self.phoneNumberLabel.text = self.selectedContact?.phoneNumber
+            self.streetAddressLabel.text = self.selectedContact?.address?.street
+            self.cityLabel.text = self.selectedContact?.address?.city
+            self.stateLabel.text = self.selectedContact?.address?.state
+            self.zipCodeLabel.text = self.selectedContact?.address?.zipCode
+    }
+    
+    func didCreateNewContact(newContact: Contact) {
+                //
+    }
+    
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
+    */
+        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+            if segue.identifier == "EditContactSegue" {
+                if let vc = segue.destinationViewController as? NewContactViewController {
+                    vc.delegate = self
+                    vc.editContactId = self.selectedContact.contactId
+                }
+            }
+        }
 }
+

@@ -21,6 +21,8 @@ struct DataManager{
         let address = NSEntityDescription.insertNewObjectForEntityForName("Address",
         inManagedObjectContext: coreDataManager.context) as? Address
         contact?.address = address
+        let uuid = NSUUID()
+        contact?.contactId = (uuid.UUIDString)
         return contact!
     }
     
@@ -31,6 +33,25 @@ struct DataManager{
             catch {
             print("Failed to save context: \(error)")
             }
+    }
+    
+    func getContact(contactId contactId:String) -> Contact? {
+        let query = NSFetchRequest(entityName: "Contact")
+        let filter = NSPredicate(format: "contactId = %@",
+            String(contactId))
+        query.predicate = filter
+        do {
+            if let results = try
+            self.coreDataManager.context.executeFetchRequest(query) as?
+            [Contact] {
+            if results.count > 0 {
+            return results[0]
+            }
+            } }
+            catch {
+            print("Failed to query for contact: \(error)")
+        }
+        return nil
     }
     
     func loadContacts() -> [Contact]? {
